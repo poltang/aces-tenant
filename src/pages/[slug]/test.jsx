@@ -53,8 +53,11 @@ export default function License({ license }) {
       </Head>
 
       <main className={styles.main}>
-        <h1 className="title sm">
+        {/* <h1 className="title sm">
           Welcome, {license.licenseName}!
+        </h1> */}
+        <h1 className="title sm">
+          Welcome, {license?.licenseName}!
         </h1>
 
         <ConstBox license={license}/>
@@ -72,7 +75,11 @@ const ConstBox = ({ license }) => {
       <p>License name: {license.licenseName}</p>
       <p>
         <Link href="/[slug]" as={`/${license.code}`}>
-          <a>Test</a>
+          <a>SLUG</a>
+        </Link>
+        {` `}
+        <Link href="/">
+          <a>HOME</a>
         </Link>
       </p>
     </div>

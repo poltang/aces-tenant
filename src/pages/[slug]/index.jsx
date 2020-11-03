@@ -53,8 +53,11 @@ export default function License({ license }) {
       </Head>
 
       <main className={styles.main}>
-        <h1 className="title sm">
+        {/* <h1 className="title sm">
           Welcome, {license.licenseName}!
+        </h1> */}
+        <h1 className="title sm">
+          Welcome, {license?.licenseName}!
         </h1>
 
         <FuncBox license={license}/>
@@ -73,6 +76,10 @@ function FuncBox({ license }) {
       <p>
         <Link href="/[slug]/test" as={`/${license.code}/test`}>
           <a>Test</a>
+        </Link>
+        {` `}
+        <Link href="/">
+          <a>HOME</a>
         </Link>
       </p>
     </div>
