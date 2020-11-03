@@ -11,7 +11,7 @@ export default async (req, res) => {
   if (db) console.log("CONNECTED")
   else console.log("CONNECTION FAILED")
 
-  let admin = null, license = null, user = null
+  let admin = null, aces = null, license = null, user = null
   let rs1 = await db.collection('users').findOne({ license: "aces"})
   if (rs1) admin = rs1
   else {
@@ -36,8 +36,16 @@ export default async (req, res) => {
     user = rs3['ops'][0]
   }
 
+  let rs4 = await db.collection("licenses").findOne({ code: "aces"})
+  if (rs4) aces = rs4
+  else {
+    rs4 = await db.collection("licenses").insertOne( acesLicense() )
+    console.log(rs4)
+    aces = rs4['ops'][0]
+  }
+
   res.statusCode = 200
-  res.json({ admin, license, user })
+  res.json({ admin, aces, license, user })
 }
 
 
@@ -58,6 +66,25 @@ function firstAdmin() {
     hashed_password: '$2b$12$MAhsJtJJqZ9wWFikzJ8gEe9JADvhWhUZ.cfNPQJy1JQnr8UliQihC',
     createdAt: new Date(),
     updatedAt: null,
+  }
+}
+
+function acesLicense() {
+  return {
+    _id: ObjectID().toString(),
+    code: 'aces',
+    type: 'corporate',
+    licenseName: 'Aces',
+    contactName: 'Yudhi Hermanu',
+    contactUsername: 'yudhi',
+    contactEmail: 'korgisme@gmail.com',
+    publishedBy: 'aces',
+    publishDate: new Date().toISOString().substr(0,10),
+    refreshDate: null,
+    expiryDate: null,
+    disabled: false,
+    createdAt: new Date(),
+    updatedAt: null
   }
 }
 
