@@ -71,10 +71,10 @@ function FuncBox({ license }) {
   return (
     <div>
       <p>FUNCBOX</p>
-      <p>License code: {license.code}</p>
-      <p>License name: {license.licenseName}</p>
+      <p>License code: {license?.code}</p>
+      <p>License name: {license?.licenseName}</p>
       <p>
-        <Link href="/[slug]/test" as={`/${license.code}/test`}>
+        <Link href="/[slug]/test" as={`/${license?.code}/test`}>
           <a>Test</a>
         </Link>
         {` `}
