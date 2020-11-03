@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
-// const url = process.env.MONGO_URL
-const url = "mongodb+srv://adminits:Wm2CxEcgtyyWJYUQ@aces01.v36mf.mongodb.net/aces02?retryWrites=true&w=majority"
+const url = "" + process.env.MONGO_URL
+// const url = "mongodb+srv://adminits:Wm2CxEcgtyyWJYUQ@aces01.v36mf.mongodb.net/aces02?retryWrites=true&w=majority"
 
 const client = new MongoClient(url, {
   useNewUrlParser: true,
