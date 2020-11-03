@@ -46,42 +46,42 @@ export async function getStaticProps({ params }) {
 
 export default function License({ license }) {
   return (
-    <div className={styles.container}>
+    <div className="aces-geist">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        {/* <h1 className="title sm">
-          Welcome, {license.licenseName}!
-        </h1> */}
-        <h1 className="title sm">
+      <main className="max-w-lg mx-auto border p-4 mt-16">
+
+        <h1 className="text-2xl text-center text-pink-600">
           Welcome, {license?.licenseName}!
         </h1>
 
-        <FuncBox license={license}/>
+        <WaitingBox license={license}/>
+
+        <p className="text-center">
+          <Link href="/">
+            <a className="text-blue-500 hover:text-blue-700">Home</a>
+          </Link>
+        </p>
 
       </main>
     </div>
   )
 }
 
-function FuncBox({ license }) {
+function WaitingBox({ license }) {
+  if (!license) return (
+    <div className="bg-gray-100 my-4 -mx-4 p-4">
+      Loading...
+    </div>
+  )
+
   return (
-    <div>
-      <p>FUNCBOX</p>
-      <p>License code: {license?.code}</p>
-      <p>License name: {license?.licenseName}</p>
-      <p>
-        <Link href="/[slug]/test" as={`/${license?.code}/test`}>
-          <a>Test</a>
-        </Link>
-        {` `}
-        <Link href="/">
-          <a>HOME</a>
-        </Link>
-      </p>
+    <div className="bg-green-300 my-4 -mx-4 p-4">
+      <p className="mb-3">Code: {license.code}</p>
+      <p className="">Name: {license.licenseName}</p>
     </div>
   )
 }
