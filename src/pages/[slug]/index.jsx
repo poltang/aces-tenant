@@ -77,6 +77,10 @@ function FuncBox({ license }) {
         <Link href="/[slug]/test" as={`/${license.code}/test`}>
           <a>Test</a>
         </Link>
+        {` `}
+        <Link href="/">
+          <a>HOME</a>
+        </Link>
       </p>
     </div>
   )
