@@ -10,7 +10,7 @@ const mongoClient = new MongoClient(url, {
 async function connect() {
   if (!mongoClient.isConnected()) await mongoClient.connect()
   const db = mongoClient.db(process.env.DATABASE_NAME)
-  return { db }
+  return { db, mongoClient }
 }
 
 export { connect }
