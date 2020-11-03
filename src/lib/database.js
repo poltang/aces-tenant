@@ -1,16 +1,16 @@
-import { MongoClient } from 'mongodb'
+import { MongoClient } from "mongodb";
 
 const url = process.env.MONGO_URL
 
-const mongoClient = new MongoClient(url, {
+const client = new MongoClient(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-})
+});
 
 async function connect() {
-  if (!mongoClient.isConnected()) await mongoClient.connect()
-  const db = mongoClient.db(process.env.DATABASE_NAME)
-  return { db, mongoClient }
+  if (!client.isConnected()) await client.connect();
+  const db = client.db(process.env.DATABASE_NAME);
+  return { db, client };
 }
 
-export { connect }
+export { connect };
