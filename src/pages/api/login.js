@@ -1,5 +1,6 @@
 import withSession from 'lib/session'
 import { connect } from 'lib/database'
+import { saveLog } from 'lib/logging'
 
 const bcrypt = require('bcryptjs')
 
@@ -35,6 +36,9 @@ export default withSession(async (req, res) => {
         req.session.set("user", user)
         await req.session.save()
         res.json(user)
+
+        // Logging
+        await saveLog(db, person.license, person.username, "logged-in", "successfully")
       } else {
         res.status(404)
         res.json({ message: "Username/password salah." })

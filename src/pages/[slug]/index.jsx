@@ -51,7 +51,7 @@ export default function License({ license }) {
   const router = useRouter()
   const { user, mutateUser} = useUser({ redirecTo: false })
 
-  if (!user || user.license != license?.code) return <NotFound />
+  if (!user || !user.isLoggedIn || user.license != license?.code) return <NotFound />
 
   return (
     <div className="aces-geist">
@@ -71,6 +71,10 @@ export default function License({ license }) {
         <p className="text-center">
           <Link href="/">
             <a className="text-blue-500 hover:text-blue-700">Home</a>
+          </Link>
+          <span> - </span>
+          <Link href="/preflight-post">
+            <a className="text-blue-500 hover:text-blue-700">Preflight</a>
           </Link>
           <span> - </span>
           <Link href="/api/logout">
