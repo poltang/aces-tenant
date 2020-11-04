@@ -1,57 +1,34 @@
 import Head from 'next/head'
 import { connect } from 'lib/database'
-import { ObjectID } from 'mongodb'
+// import { ObjectID } from 'mongodb'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import fetchJson from 'lib/fetchJson'
+import { getLicensePaths } from 'lib/staticPaths'
+import { getLicenseInfo } from "lib/staticProps";
 import useUser from 'lib/useUser'
 import NotFound from 'components/NotFound';
 
-
 export async function getStaticPaths() {
   const { db } = await connect()
-  try {
-    const rs = await db.collection('licenses').find(
-      {},
-      {projection: {_id: 0, code: 1, type: 1, licenseName: 1 }}
-    ).toArray()
-
-    console.log("RS", rs)
-    const dx = ObjectID().toString()
-    console.log(dx)
-
-    const paths = rs.map((license) => ({
-      params: { slug: license?.code },
-    }))
-
-    console.log("PATHS", paths)
-    return { paths, fallback: true }
-  } catch (error) {
-    throw error
-  }
+  const paths = await getLicensePaths(db)
+  return { paths, fallback: true }
 }
 
 export async function getStaticProps({ params }) {
   const { db } = await connect()
-  try {
-    const rs = await db.collection("licenses").findOne({ code: params.slug })
-    console.log("RS", rs)
-    const license = JSON.parse( JSON.stringify(rs) )
-    console.log("LICENSE", license)
-    return {
-      props: { license },
-      revalidate: 2 // process.env.REVALIDATE_INTERVAL
-    }
-  } catch (error) {
-    throw error
+  const info = await getLicenseInfo(db, params.slug)
+  return {
+    props: { info },
+    revalidate: 2
   }
 }
 
-export default function License({ license }) {
+export default function License({ info }) {
   const router = useRouter()
   const { user, mutateUser} = useUser({ redirecTo: false })
 
-  if (!user || !user.isLoggedIn || user.license != license?.code) return <NotFound />
+  if (!user || !user.isLoggedIn || user.license != info?.code) return <NotFound />
 
   return (
     <div className="aces-geist">
@@ -63,10 +40,10 @@ export default function License({ license }) {
       <main className="max-w-lg mx-auto border p-4 mt-16">
 
         <h1 className="text-2xl text-center text-pink-600">
-          Welcome, {license?.licenseName}!
+          Welcome, {info.licenseName}!
         </h1>
 
-        <WaitingBox license={license}/>
+        <WaitingBox license={info}/>
 
         <p className="text-center">
           <Link href="/">
@@ -87,7 +64,7 @@ export default function License({ license }) {
             </a>
           </Link>
         </p>
-
+        <pre className="pre">{JSON.stringify(info, null, 2)}</pre>
       </main>
     </div>
   )

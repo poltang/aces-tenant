@@ -46,7 +46,7 @@ export default function FormTest() {
       <Btn label="Create license+admin" action="create-license-and-admin" handler={handleClick}/>
       {/* <Btn label="Create license admin" action="create-license-admin" handler={handleClick}/> */}
       <Btn label="Create user" action="create-user" handler={handleClick}/>
-      <Btn label="Create project" action="create-project" handler={handleClick}/>
+      {/* <Btn label="Create project" action="create-project" handler={handleClick}/> */}
       <Btn label="Create project & client" action="create-project-and-client" handler={handleClick}/>
       <Btn label="Create persona" action="create-persona" handler={handleClick}/>
       <Btn label="Create project member" action="create-member" handler={handleClick}/>
@@ -71,13 +71,13 @@ export default function FormTest() {
 function getBody(param) {
   if (param == "create-license-and-admin") {
     return {
-      code: 'sample-license',
+      code: 'sdi',
       type: 'corporate',
-      licenseName: 'Ayodha',
-      contactName: 'Dr. Ayodha',
-      contactUsername: 'ayodha',
-      contactEmail: 'ayodha@test.com',
-      createdBy: "sample-admin",
+      licenseName: 'PT Soma Data Infrastructures',
+      contactName: 'Dr. Sedya Harjan',
+      contactUsername: 'sedya',
+      contactEmail: 'sedya@test.com',
+      createdBy: "yudhi",
     }
   }
   // else if (param == "create-license-admin") {
@@ -91,33 +91,33 @@ function getBody(param) {
   // }
   else if (param == "create-user") {
     return {
-      license: "sample-license",
-      name: "Mr. Test User",
-      username: "TestUser",
-      email: "test@user.NET",
-      gender: "L",
+      license: "sdi",
+      name: "Julia Widiasih",
+      username: "juwid",
+      email: "juwid@user.NET",
+      gender: "P",
       phone: "098919201",
-      roles: ["tasker", "divider"],
-      createdBy: "sample-admin",
+      roles: ["project-creator", "project-admin"],
+      createdBy: "sedya",
     }
   }
-  else if (param == "create-project") {
-    return {
-      license: "sample-license",
-      title: "Project Annihilation",
-      admin: "sudarman",
-      createdBy: "sample-admin",
-      clientId: "5fa2687032ec5b13cd9f1401",
-      description: "Lorem ipsum dolor sis amet",
-      startDate: "",
-      endDate: "",
-      contact: "",
-    }
-  }
+  // else if (param == "create-project") {
+  //   return {
+  //     license: "sdi",
+  //     title: "Project Annihilation",
+  //     admin: "juwid",
+  //     createdBy: "sedya",
+  //     clientId: "5fa2687032ec5b13cd9f1401",
+  //     description: "Lorem ipsum dolor sis amet",
+  //     startDate: "",
+  //     endDate: "",
+  //     contact: "",
+  //   }
+  // }
   else if (param == "create-project-and-client") {
     return {
       // client
-      license: "sample-license",
+      license: "sdi",
       name: "PT Abundaya",
       address: "Jl. Bening",
       city: "Medan",
@@ -128,9 +128,9 @@ function getBody(param) {
       ],
       // project
       title: "Project Annihilation",
-      admin: "sudarman",
-      createdBy: "sample-admin",
-      clientId: "5fa2687032ec5b13cd9f1401",
+      admin: "juwid",
+      createdBy: "sedya",
+      clientId: "xxx",
       description: "Lorem ipsum dolor sis amet",
       startDate: "",
       endDate: "",
@@ -139,7 +139,7 @@ function getBody(param) {
   }
   else if (param == "create-member") {
     return {
-      /* required */ projectId: "5fa275fc32ec5b13cd9f141f",
+      /* required */ projectId: "5fa32333af7f315219f24de8",
       /* required */ createdBy: "srie2020",
       /* required */ name: "Siti Mordamar",
       /* required */ username: "mordamar",
@@ -149,8 +149,8 @@ function getBody(param) {
   }
   else if (param == "create-persona") {
     return {
-      /* required */ license: "sample-license",
-      /* required */ projectId: "5fa272b932ec5b13cd9f1413",
+      /* required */ license: "sdi",
+      /* required */ projectId: "5fa32333af7f315219f24de8",
       /* required */ createdBy: "sudarji",
       /* required */ username: "ROMANA",
       /* required */ email: "ROMA@Na.NET",

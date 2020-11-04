@@ -45,12 +45,12 @@ export default withSession(async (req, res) => {
       }
     }
     else if (action == "reset-sample-data") {
-      await db.collection(LICENSES_DB).deleteMany({ code: "test-code" })
-      await db.collection(USERS_DB).deleteMany({ $or: [{license: "test-code"}, {license: "sample-code"}] })
-      await db.collection(PROJECTS_DB).deleteMany({ $or: [{license: "sid-code"}, {license: "doremi"}] })
+      await db.collection(LICENSES_DB).deleteMany({ code: "sample-license" })
+      await db.collection(USERS_DB).deleteMany({ $or: [{license: "sample-license"}, {license: "sample-code"}] })
+      await db.collection(PROJECTS_DB).deleteMany({ $or: [{license: "sample-license"}, {license: "doremi"}] })
       await db.collection(MEMBERS_DB).deleteMany({ projectId: "5fa275fc32ec5b13cd9f141f" })
       await db.collection(PERSONAS_DB).deleteMany({ projectId: "5fa272b932ec5b13cd9f1413" })
-      await db.collection(CLIENTS_DB).deleteMany({ $or: [{license: "test"}, {license: "doremi"}] })
+      await db.collection(CLIENTS_DB).deleteMany({ $or: [{license: "sample-license"}, {license: "doremi"}] })
       res.json({ message: "Removed sample data." })
     }
     else {
@@ -68,11 +68,11 @@ export default withSession(async (req, res) => {
           type = "user"
           collection = USERS_DB
           break;
-        case "create-project":
-          props = createProjectProps(req.body)
-          type = "project"
-          collection = PROJECTS_DB
-          break;
+        // case "create-project":
+        //   props = createProjectProps(req.body)
+        //   type = "project"
+        //   collection = PROJECTS_DB
+        //   break;
         case "create-project-and-client":
           props = createProjectAndClientProps(req.body)
           break;
