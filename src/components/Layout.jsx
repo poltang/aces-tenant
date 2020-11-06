@@ -44,7 +44,7 @@ export default class Layout extends React.Component {
             {this.props.children}
           </div>
         </main>
-        <footer id="aces-footer" className="h-64 text-xs text-gray-500 border-t border-gray-300">
+        <footer id="aces-footer" className="antialiased h-64 text-xs text-gray-500 border-t border-gray-300">
           <p className="text-center my-6">GAIA ACES - LICENSE FOOTER</p>
         </footer>
 
@@ -61,7 +61,7 @@ export default class Layout extends React.Component {
           </div>
           <style jsx>{`
           .debug {
-            font-size: 12px;
+            font-size: 11px;
           }
           .debug pre {
             max-height: 400px

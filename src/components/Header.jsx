@@ -4,7 +4,7 @@ import fetchJson from 'lib/fetchJson'
 import useUser from 'lib/useUser'
 
 export default function Header({ info, project, activeNav }) {
-  const { mutateUser} = useUser({ redirecTo: `/${info?.licenseSlug}` })
+  const { mutateUser} = useUser({ redirecTo: `/${info?.code}` })
   const router = useRouter()
 
   return (
@@ -13,11 +13,11 @@ export default function Header({ info, project, activeNav }) {
         <div className="aces-geist text-sm py-3">
           <div className="flex flex-row items-center">
             <div className="flex flex-grow items-center">
-              <div id="aces-logo" className="rounded-sm p-px h-8 w-12 mr-4">
-                <div className="w-full h-full bg-white"></div>
+              <div id="aces-logo" className="rounded-full cursor-default p-1 h-8 w-8 -ml-1 mr-4">
+                <div className="rounded-full h-full bg-white hover:bg-transparent text-green-600 hover:text-white text-xl leading-5 text-center font-bold">a</div>
               </div>
               <div className="flex-grow">
-                <Link href={`/${info?.licenseSlug}`}>
+                <Link href={`/${info?.code}`}>
                   <a className="text-gray-800 font-semibold">{info?.licenseName}</a>
                 </Link>
               </div>
@@ -37,7 +37,7 @@ export default function Header({ info, project, activeNav }) {
                   e.preventDefault()
                   await mutateUser(fetchJson('/api/logout'))
                   router.push('/login')
-                }} className="rounded-sm border px-2 py-1 mt-px hover:text-gray-800 hover:border-gray-600">
+                }} className="rounded-sms border px-2 py-1 mt-px hover:text-gray-800 hover:border-gray-600">
                   <span className="block pb-px">Logout</span>
                 </a>
               </Link>
@@ -58,31 +58,38 @@ function NavLicense({ slug, activeNav }) {
   const innerNormal = "block py-3 -mb-px border-b-2 border-transparent"
 
   return (
-    <div id="aces-fixed" className="bg-white z-50 tracking-tights border-b border-gray-400">
+    <div id="aces-fixed" className="bg-white z-50 tracking-tight border-b border-gray-400">
       <div className="px-4 sm:px-6">
         <div className="aces-geist">
-          <div className="flex flex-row items-center text-sm antialiased">
-            <Link href={`/${slug}`}>
-              <a className={activeNav == 'license' ? active + ' -ml-3' : normal  + ' -ml-3'}>
-                <span className={activeNav == 'license' ? innerActive : innerNormal}>
-                  Home
-                </span>
-              </a>
-            </Link>
-            <Link href={`/${slug}/projects`}>
-              <a className={activeNav == 'projects' ? active : normal}>
-                <span className={activeNav == 'projects' ? innerActive : innerNormal}>
-                  Projects
-                </span>
-              </a>
-            </Link>
-            <Link href={`/${slug}/settings`}>
-              <a className={activeNav == 'settings' ? active : normal}>
-                <span className={activeNav == 'settings' ? innerActive : innerNormal}>
-                  Settings
-                </span>
-              </a>
-            </Link>
+          <div className="flex items-end text-sm cursor-default">
+            <div className="aces-prompt-logo flex">
+              <div className="aces-logo-rainbow rounded-full p-1 h-6 w-6">
+                <div className="rounded-full h-full bg-white hover:bg-transparent text-pink-500 hover:text-white text-sm leading-3 pt-px text-center font-bold">a</div>
+              </div>
+            </div>
+            <div className="aces-prompt-nav flex flex-row flex-grow">
+              <Link href={`/${slug}`}>
+                <a className={activeNav == 'license' ? active + ' -ml-3' : normal  + ' -ml-3'}>
+                  <span className={activeNav == 'license' ? innerActive : innerNormal}>
+                    Home
+                  </span>
+                </a>
+              </Link>
+              <Link href={`/${slug}/projects`}>
+                <a className={activeNav == 'projects' ? active : normal}>
+                  <span className={activeNav == 'projects' ? innerActive : innerNormal}>
+                    Projects
+                  </span>
+                </a>
+              </Link>
+              <Link href={`/${slug}/settings`}>
+                <a className={activeNav == 'settings' ? active : normal}>
+                  <span className={activeNav == 'settings' ? innerActive : innerNormal}>
+                    Settings
+                  </span>
+                </a>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -97,38 +104,45 @@ function NavProject({ project, activeNav }) {
   const innerNormal = "block py-1 -mb-p1x "
 
   return (
-    <div id="aces-fixed" className="bg-white z-50 tracking-wider border-b border-gray-400">
+    <div id="aces-fixed" className="bg-white z-50 tracking-tight border-b border-gray-400">
       <div className="px-4 sm:px-6">
         <div className="aces-geist">
-          <div className="flex flex-row items-center text-sm antialiased">
-            <Link href={`/${project.license}/projects/${project._id}`}>
-              <a className={activeNav == 'overview' ? active + ' -ml-3' : normal  + ' -ml-3'}>
-                <span className={activeNav == 'overview' ? innerActive : innerNormal}>
-                  Overview
-                </span>
-              </a>
-            </Link>
-            <Link href={`/${project.license}/projects/${project._id}/modules`}>
-              <a className={activeNav == 'modules' ? active : normal}>
-                <span className={activeNav == 'modules' ? innerActive : innerNormal}>
-                  Modules
-                </span>
-              </a>
-            </Link>
-            <Link href={`/${project.license}/projects/${project._id}/personas`}>
-              <a className={activeNav == 'personas' ? active : normal}>
-                <span className={activeNav == 'personas' ? innerActive : innerNormal}>
-                  Personas
-                </span>
-              </a>
-            </Link>
-            <Link href={`/${project.license}/projects/${project._id}/settings`}>
-              <a className={activeNav == 'settings' ? active : normal}>
-                <span className={activeNav == 'settings' ? innerActive : innerNormal}>
-                  Deployment
-                </span>
-              </a>
-            </Link>
+          <div className="flex items-end text-sm">
+            <div className="aces-prompt-logo flex cursor-default">
+              <div className="bg-gray-500 rounded-full p-1 h-6 w-6">
+                <div className="rounded-full h-full bg-white hover:bg-transparent text-gray-500 hover:text-white text-sm leading-3 pt-px text-center font-bold">a</div>
+              </div>
+            </div>
+            <div className="aces-prompt-nav flex flex-row flex-grow">
+              <Link href={`/${project.license}/projects/${project._id}`}>
+                <a className={activeNav == 'overview' ? active + ' -ml-3' : normal  + ' -ml-3'}>
+                  <span className={activeNav == 'overview' ? innerActive : innerNormal}>
+                    Overview
+                  </span>
+                </a>
+              </Link>
+              <Link href={`/${project.license}/projects/${project._id}/modules`}>
+                <a className={activeNav == 'modules' ? active : normal}>
+                  <span className={activeNav == 'modules' ? innerActive : innerNormal}>
+                    Modules
+                  </span>
+                </a>
+              </Link>
+              <Link href={`/${project.license}/projects/${project._id}/personas`}>
+                <a className={activeNav == 'personas' ? active : normal}>
+                  <span className={activeNav == 'personas' ? innerActive : innerNormal}>
+                    Personas
+                  </span>
+                </a>
+              </Link>
+              <Link href={`/${project.license}/projects/${project._id}/settings`}>
+                <a className={activeNav == 'settings' ? active : normal}>
+                  <span className={activeNav == 'settings' ? innerActive : innerNormal}>
+                    Settings
+                  </span>
+                </a>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
