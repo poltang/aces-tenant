@@ -24,7 +24,7 @@ export default class Layout extends React.Component {
   // can't use user which is only available at runtime
 
   render() {
-    const mainClass = this.props.bg ? this.props.bg + ' min-h-screen' : 'min-h-screen'
+    const mainClass = this.props.bg ? this.props.bg + ' relative min-h-screen' : 'relative min-h-screen'
 
     return (
       <>
@@ -40,7 +40,7 @@ export default class Layout extends React.Component {
               activeNav={this.props.activeNav}
             />
           </div>
-          <div id="aces-content" className="text-sm antialiased pb-10">
+          <div id="aces-content" className="relative text-sm antialiased pb-10">
             {this.props.children}
           </div>
         </main>

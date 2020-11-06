@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { connect } from 'lib/database'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -7,6 +6,7 @@ import { getLicensePaths, getLicenseInfo } from 'lib/static'
 import useUser from 'lib/useUser'
 import NotFound from 'components/NotFound';
 import Layout from 'components/Layout'
+import ProjectCard from 'components/ProjectCard'
 
 export async function getStaticPaths() {
   const { db } = await connect()
@@ -67,13 +67,16 @@ export default function Projects({ info, projects }) {
 
       <div className="px-4 sm:px-6">
         <div className="aces-geist">
-          {projects.map((project) => (
-            <p key={project._id}>
-              <Link href="/[slug]/projects/[id]" as={`/${project.license}/projects/${project._id}`}>
-                <a>{project.title}</a>
-              </Link>
-            </p>
-          ))}
+          {/* If there're more than one project */}
+          <div className="max-w-lg md:max-w-full mx-auto">
+            <div className="grid grid-cols-2 gap-6 pt-10 pb-12">
+              {projects.map(project => (
+                <div key={project._id} className="col-span-2 md:col-span-1">
+                  <ProjectCard project={project} desc={false} />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </Layout>
