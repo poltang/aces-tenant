@@ -40,3 +40,27 @@ export async function getLicenseInfo(db, slug) {
     throw error
   }
 }
+
+export async function getProjectInfo(db, id) {
+  try {
+    const doc = await db.collection('projects').findOne({ _id: id })
+    const json = JSON.parse( JSON.stringify(doc) )
+    const info = {
+      _id: json._id,
+      license: json.license,
+      title: json.title,
+      description: json.description,
+      startDate: json.startDate,
+      endDate: json.endDate,
+      status: json.status,
+      contact: json.contact,
+      admin: json.admin,
+      modules: json.modules,
+      accessCode: json.accessCode,
+    }
+
+    return info
+  } catch (error) {
+    throw error
+  }
+}

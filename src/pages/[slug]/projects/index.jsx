@@ -86,7 +86,7 @@ function Hero({ info }) {
       <div className="aces-geist">
         <div className="flex flex-col">
           <div className="text-center sm:text-left">
-            <div className="text-4xl text-gray-800 leading-snug tracking-loose">
+            <div className="text-3xl text-gray-800 leading-snug tracking-loose">
               Projects
             </div>
             <div className="text-sm text-gray-600 text-sm mb-2">
