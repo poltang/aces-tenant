@@ -48,6 +48,9 @@ export default function Personas({ info, project }) {
     <Layout info={info} project={project} activeNav="personas" debugs={debugs}>
       <Hero project={project} />
       {/* <Form project={project} user={user} toggler={toggleForm} mutate={mutatePersonas} /> */}
+      {personas && (
+        <pre className="pre">{JSON.stringify(personas, null, 2)}</pre>
+      )}
     </Layout>
   )
 }
