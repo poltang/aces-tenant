@@ -47,9 +47,7 @@ export async function getStaticProps({ params }) {
 }
 
 export default function Users({ info, users }) {
-  const router = useRouter()
-  const { user, mutateUser} = useUser({ redirecTo: false })
-
+  const { user } = useUser({ redirecTo: false })
   if (!user || !user.isLoggedIn || user.license != info?.code) return <NotFound />
 
   const debugs = [ info, users ]

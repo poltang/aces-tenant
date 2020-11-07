@@ -43,23 +43,36 @@ export async function getLicenseInfo(db, slug) {
 
 export async function getProjectInfo(db, id) {
   try {
-    const doc = await db.collection('projects').findOne({ _id: id })
-    const json = JSON.parse( JSON.stringify(doc) )
-    const info = {
-      _id: json._id,
-      license: json.license,
-      title: json.title,
-      description: json.description,
-      startDate: json.startDate,
-      endDate: json.endDate,
-      status: json.status,
-      contact: json.contact,
-      admin: json.admin,
-      modules: json.modules,
-      accessCode: json.accessCode,
-    }
-
-    return info
+    // const doc = await db.collection('projects').findOne({ _id: id })
+    // const json = JSON.parse( JSON.stringify(doc) )
+    // const info = {
+    //   _id: json._id,
+    //   license: json.license,
+    //   title: json.title,
+    //   description: json.description,
+    //   startDate: json.startDate,
+    //   endDate: json.endDate,
+    //   status: json.status,
+    //   contact: json.contact,
+    //   admin: json.admin,
+    //   modules: json.modules,
+    //   accessCode: json.accessCode,
+    // }
+    // return info
+    const rs = await db.collection('projects').aggregate(
+      { $match: { _id: id }},
+      { $lookup: {
+        localField: 'clientId',
+        from: 'clients',
+        foreignField: '_id',
+        as: 'clients' // always array
+      }},
+      { $undwind: '$client' }
+    ).toArray()
+    let project = JSON.parse( JSON.stringify(rs[0]) )
+    project.client = project.clients[0] ? project.clients[0] : null
+    delete project.clients
+    return project
   } catch (error) {
     throw error
   }

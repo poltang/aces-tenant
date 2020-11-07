@@ -12,7 +12,7 @@ export default function ProjectCard({ project, desc = true }) {
   return (
     <div className="mb-6 md:mb-10">
       <div className="relative bg-blue-300 bg-opacity-25 rounded-xl hover:-m-1 hover:p-1">
-        <div className="relative bg-white shadow rounded-lg border border-gray-400 hover:border-blue-300 px-6 pt-4 pb-2">
+        <div className="relative bg-white shadowS rounded-lg border border-gray-400 hover:border-blue-300 px-6 pt-4 pb-2">
           <div className="card-head -mx-6 px-6 pb-3 border-b">
             <div className="flex flex-row items-center mb-1">
               <h3 className="flex-grow text-xl text-gray-800 font-bold">
@@ -35,7 +35,7 @@ export default function ProjectCard({ project, desc = true }) {
 
           </div>
           {desc && (
-          <p className="bg-gray-200 font-light -mx-6 mb-4 px-6 py-3">
+          <p className="bg-gray-100 font-light -mx-6 mb-4 px-6 py-3">
             {!project.description && 'No description available'}
             {project.description && project.description}
           </p>

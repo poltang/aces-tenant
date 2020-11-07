@@ -109,8 +109,8 @@ function NavProject({ project, activeNav }) {
         <div className="aces-geist">
           <div className="flex items-end text-sm">
             <div className="aces-prompt-logo flex cursor-default">
-              <div className="bg-gray-500 rounded-full p-1 h-6 w-6">
-                <div className="rounded-full h-full bg-white hover:bg-transparent text-gray-500 hover:text-white text-sm leading-3 pt-px text-center font-bold">a</div>
+              <div className="bg-gray-600 rounded-full p-1 h-6 w-6">
+                <div className="rounded-full h-full bg-white hover:bg-transparent text-gray-600 hover:text-white text-sm leading-3 pt-px text-center font-bold">a</div>
               </div>
             </div>
             <div className="aces-prompt-nav flex flex-row flex-grow">

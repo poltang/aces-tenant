@@ -9,7 +9,7 @@ export default function ProjectStatus({ status, label, margin}) {
   const c5 = base + "bg-yellow-200 border-2 border-red-500"
 
   const l1 = "inline-block -mt-1  text-gray-600"
-  const l2 = "inline-block -mt-1  text-greem-600"
+  const l2 = "inline-block -mt-1  text-green-600"
   const l3 = "inline-block -mt-1  text-green-600 font-bold"
   const l4 = "inline-block -mt-1  text-gray-700"
   const l5 = "inline-block -mt-1  text-red-600"

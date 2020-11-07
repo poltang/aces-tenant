@@ -40,7 +40,7 @@ export default class Layout extends React.Component {
               activeNav={this.props.activeNav}
             />
           </div>
-          <div id="aces-content" className="relative text-sm antialiased pb-10">
+          <div id="aces-content" className="relative text-sm antialiased">
             {this.props.children}
           </div>
         </main>

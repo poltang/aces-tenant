@@ -6,6 +6,7 @@ export default function NotFound() {
     <>
       <Head>
         <meta name="robots" content="noindex" />
+        <title>ACES - Page Not Found</title>
       </Head>
       <DefaultErrorPage statusCode={404} />
     </>

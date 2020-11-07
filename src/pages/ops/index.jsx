@@ -9,9 +9,8 @@ import NotFound from 'components/NotFound'
 
 export default function License() {
   const router = useRouter()
-  const { user, mutateUser} = useUser({ redirecTo: false })
-
-  if (!user || user.license != "aces") return <NotFound />
+  const { user } = useUser({ redirecTo: false })
+  if (!user || !user.isLoggedIn || user.license != "aces") return <NotFound />
 
 
   return (
