@@ -152,9 +152,9 @@ function getBody(param) {
       /* required */ license: "sdi",
       /* required */ projectId: "5fa32333af7f315219f24de8",
       /* required */ createdBy: "sudarji",
-      /* required */ username: "ROMANA",
-      /* required */ email: "ROMA@Na.NET",
-      /* required */ fullname: "Roma Na Purba",
+      /* required */ username: "dorah",
+      /* required */ email: "dora@Na.NET",
+      /* required */ fullname: "SEMENTARA",
       gender: "",
       phone: "",
       birth: "",
@@ -177,3 +177,38 @@ function Btn({ color, label, action, handler }) {
     >{label}</button>
   )
 }
+
+/*{
+  "license": "sdi",
+  "projectId": "5fa32333af7f315219f24de8",
+  "createdBy": "sudarji",
+  "username": "dorah",
+  "email": "dora@Na.NET",
+  "fullname": "Dora Indah",
+  "gender": "",
+  "phone": "",
+  "birth": "",
+  "nip": "",
+  "position": "",
+  "currentLevel": "",
+  "targetLevel": ""
+}
+
+
+
+
+
+{
+  "license":"sdi",
+  "projectId":"5fa32333af7f315219f24de8",
+  "createdBy":"juwid",
+  "username":"Mos",
+  "email":"maskum",
+  "fullname":"Agus",
+  "gender":"LL",
+  "birth":"8989",
+  "nip":"LUSI",
+  "position":"POS",
+  "currentLevel":"CL",
+  "targetLevel":"TL"
+}*/

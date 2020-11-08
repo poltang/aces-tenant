@@ -53,8 +53,16 @@ export default withSession(async (req, res) => {
       await db.collection(CLIENTS_DB).deleteMany({ $or: [{license: "sample-license"}, {license: "doremi"}] })
       res.json({ message: "Removed sample data." })
     }
+    else if (action == "create-persons") {
+      props = createPersonaProps(req.body)
+      type = "persona"
+      collection = PERSONAS_DB
+
+      console.log("XPROPS", props)
+    }
     else {
       console.log("action", action)
+      console.log("BODY", req.body)
 
       let owner = 'client'
       let props = null, type = null, collection = null
@@ -88,6 +96,7 @@ export default withSession(async (req, res) => {
           break;
       }
 
+      console.log("==============")
       console.log(props)
 
       //  Here we are saving document to mongodb
@@ -345,7 +354,7 @@ function createPersonaProps(body) {
     /* required */ email,
     /* required */ fullname,
     gender,
-    phone,
+    // phone,
     birth,
     nip,
     position,
@@ -353,14 +362,14 @@ function createPersonaProps(body) {
     targetLevel
   } = body
   if (!gender || gender == undefined) gender = null
-  if (!phone || phone == undefined) phone = null
+  // if (!phone || phone == undefined) phone = null
   if (!birth || birth == undefined) birth = null
   if (!nip || nip == undefined) nip = null
   if (!position || position == undefined) position = null
   if (!currentLevel || currentLevel == undefined) currentLevel = null
   if (!targetLevel || targetLevel == undefined) targetLevel = null
   const { hash, xfpwd } = createPassword(username)
-  return {
+  const props = {
     _id: ObjectID().toString(),
     license: license,
     projectId: projectId,
@@ -389,6 +398,8 @@ function createPersonaProps(body) {
     updatedAt: null,
     xfpwd: xfpwd,
   }
+  console.log("INPROPS", props)
+  return props
 }
 
 function createMemberProps(body) {

@@ -43,7 +43,7 @@ body {
 }
 
 .scrolled .aces-prompt-logo {
-  display: block;
+  /* display: block; */
   opacity: 1;
   transform: translateZ(0);
   visibility: visible;
