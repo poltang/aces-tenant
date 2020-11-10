@@ -12,11 +12,13 @@ module.exports = {
     },
   },
   variants: {
-    backgroundColor: ['responsive', 'hover', 'focus', 'active'],
+    backgroundColor: ['responsive', 'hover', 'group-hover', 'focus', 'active', 'checked'],
     margin: ['responsive', 'hover', 'focus'],
     padding: ['responsive', 'hover', 'focus'],
     backgroundOpacity: ['responsive', 'hover'],
     zIndex: ['responsive', 'hover'],
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/custom-forms'),
+  ],
 }

@@ -1,14 +1,16 @@
 import { useState } from 'react'
+import Link from 'next/link'
 import useSWR from 'swr'
 import { connect } from 'lib/database'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import fetchJson from 'lib/fetchJson'
 import { getProjectPaths, getLicenseInfo, getProjectInfo } from 'lib/static'
 import useUser from 'lib/useUser'
+import { swrOptions } from 'lib/utils';
 import NotFound from 'components/NotFound';
 import Layout from 'components/Layout'
-import ProjectStatus from 'components/ProjectStatus'
+// import Hero from 'components/PersonasHero'
+import { BtnHollowMd, BtnReverseMd, BtnReverseSm } from 'components/Buttons'
+
 
 export async function getStaticPaths() {
   const { db } = await connect()
@@ -40,64 +42,90 @@ export async function getStaticProps({ params }) {
 export default function Personas({ info, project }) {
   const { user } = useUser({ redirecTo: false })
   const url = `/api/get?id=${info?.licenseSlug}&project=${project?._id}&personas`
-  const {data: personas, mutate: mutatePersonas} = useSWR(url, fetchJson)
+  const {data: personas, mutate: mutatePersonas} = useSWR(url, fetchJson, swrOptions())
   const [showForm, setShowForm] = useState(false)
 
   /* ==== The line below must come AFTER reack hooks to avoid refresh error ==== */
   if (!user || !user.isLoggedIn || user.license != info?.code) return <NotFound />
 
   const debugs = [ info, project, personas ]
-  const fmHide = "outer relative bg-white h-auto overflow-hidden -mt-px"
-  const fmShow = "outer show relative bg-white h-auto overflow-hidden -mt-px pt-6s"
+  const fmHide = "form-wrap relative h-auto overflow-hidden"
+  const fmShow = "form-wrap form-show relative h-auto overflow-hidden"
 
   function toggleForm() {
     const show = showForm;
     setShowForm(!showForm)
     if (!show) {
+      // window.scrollTo(0, 200)
       document.getElementById("autofocus").focus()
     }
   }
 
   return (
     <Layout info={info} project={project} activeNav="personas" debugs={debugs}>
-
-      <Hero project={project} flag={showForm} showHandler={toggleForm} />
-
+      <Hero project={project} flag={showForm} toggler={toggleForm} />
+      {/* Form */}
       <div className={showForm ? fmShow : fmHide}>
-        <div className="inner px-4 sm:px-6 border-b">
-          <div className="aces-geist">
-            <p className="text-sm text-gray-600 mb-6">
-              Mengisi form persona...
-            </p>
+        <div className="form-container bg-gray-100 border-t px-4 sm:px-6">
+          <div className="aces-geist py-8">
+            <Form project={project} user={user} toggler={toggleForm} mutate={mutatePersonas} />
           </div>
-          <Form project={project} user={user} toggler={toggleForm} mutate={mutatePersonas} />
         </div>
       </div>
-
-      {/* {showForm && <Form project={project} user={user} toggler={toggleForm} mutate={mutatePersonas} />} */}
+      {/* Table */}
+      <div className="pb-32">
+        <div className="h-10 bg-gray-600"></div>
+        <div className="px-4 sm:px-6 -mt-10">
+          <div className="aces-geist">
+            <table className="table-full w-full">
+              <thead>
+                <tr className=" text-gray-200 border-transparent text-xs uppercase">
+                  <th className="h-10 pb-2 font-normal">#</th>
+                  <th className="h-10 pb-2 font-normal">Nama Lengkap</th>
+                  <th className="h-10 pb-2 font-normal">Email</th>
+                  <th className="h-10 pb-2 font-normal">NIP</th>
+                  <th className="h-10 pb-2 font-normal">Position</th>
+                  <th className="h-10 pb-2 font-normal">Target</th>
+                </tr>
+              </thead>
+              <tbody>
+              {personas?.map((persona, index) => (
+                <tr key={persona._id} className="border-b text-gray-600">
+                  <td>{index +1}</td>
+                  <td>{persona.fullname}</td>
+                  <td>{persona.email}</td>
+                  <td>{persona.nip ? persona.nip : 'N/A'}</td>
+                  <td>{persona.position ? persona.position : 'N/A'}</td>
+                  <td>{persona.targetLevel ? persona.targetLevel : 'N/A'}</td>
+                </tr>
+              ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
       <style jsx>{`
-      .inner {
+      .form-container {
         height: 0;
         border-bottom-width: 0px;
-        transform: translate3d(0, -350px, 0);
-        transition: all .125s ease;
+        transform: translate3d(0, -220px, 0);
+        transition: all .5s ease;
       }
-      .show .inner {
+      .form-show .form-container {
         height: auto;
         border-bottom-width: 1px;
         transform: translateZ(0);
-        transition: all .125s ease;
+        transition: all .25s ease;
       }
       `}</style>
     </Layout>
   )
 }
 
-function Hero({ project, flag, showHandler }) {
-  // const contacts = simpleContactsJoin(project.client.contacts)
+function Hero({ project, flag, toggler }) {
 
   return (
-    <div className="bg-white border-b border-gray-300 pt-6 pb-6 px-4 sm:px-6">
+    <div className="bg-white pt-6 pb-4 px-4 sm:px-6">
       <div className="aces-geist">
         <div className="flex flex-col">
           <div className="text-center sm:text-left">
@@ -111,40 +139,31 @@ function Hero({ project, flag, showHandler }) {
               {project.client.name}, {project.createdAt.substr(0,4)}
             </div>
           </div>
-          {!flag && <div className="flex items-end justify-center sm:justify-end mt-3">
-            <div className="hidden sm:block flex-grow">
-              <div className="text-sm text-gray-600 ">
-                Persona-related message/status
+          <div className="flex items-end justify-center text-gray-500 sm:justify-end mt-3">
+            {!flag && <div className="hidden sm:block flex-grow text-xs font-semibold uppercase leading-loose">
+              {/* <span className="inline-block w-8 h-8 border-4 text-white text-center rounded-full bg-gray-500">DV</span> */}
+              <span className="text-gray-700 cursor-default">
+                Data view
+              </span>
+              <span className="mx-2">|</span>
+              <Link
+              href="/[slug]/projects/[id]/assignments"
+              as={`/${project.license}/projects/${project._id}/assignments`}>
+                <a className="hover:text-gray-700">
+                  Assignment View
+                </a>
+              </Link>
+            </div>}
+            {flag && <div className="flex-grow h-8">
+              <div className="text-center text-gray-700 font-semibold mt-2">
+                Add New Persona
               </div>
-            </div>
-            <div className="leading-none">
-              <button
-              onClick={showHandler}
-              className={"float-rights roundeds px-4 py-2 mr-2 border border-gray-400 " +
-              "hover:bg-gray-600 hover:border-gray-600 text-sm text-gray-600 hover:text-white"}>
-                Add
-              </button>
-              <button className={"float-rights roundeds px-4 py-2 border border-gray-400 " +
-              "hover:bg-gray-600 hover:border-gray-600 text-sm text-gray-600 hover:text-white"}>
-                Import
-              </button>
-            </div>
-          </div>}
-          {/*flag && <div className="flex items-end justify-center sm:justify-end mt-3">
-            <div className="hidden sm:block flex-grow">
-              <div className="text-sm text-gray-600 ">
-                Adding persona...
-              </div>
-            </div>
-            <div className="leading-none">
-              <button
-              onClick={showHandler}
-              className={"float-rights roundeds px-4 py-2 border border-gray-400 " +
-              "hover:bg-gray-600 hover:border-gray-600 text-sm text-gray-600 hover:text-white"}>
-                Cancel
-              </button>
-            </div>
-          </div>*/}
+            </div>}
+            {!flag && <div className="">
+              <BtnReverseSm label="Add" props="mr-2" clickHandler={toggler} />
+              <BtnReverseSm label="Import" />
+            </div>}
+          </div>
         </div>
       </div>
     </div>
@@ -183,44 +202,52 @@ function Form({ project, user, toggler, mutate }) {
     mutate()
   }
 
+  const fields = [
+    ["fullname", "Nama lengkap"],
+    ["username", "Username"],
+    ["email", "Email"],
+    ["gender", "Jenis kelamin"],
+    ["birth", "Tanggal lahir"],
+    ["nip", "NIP / Nomor induk"],
+    ["position", "Posisi / jabatan"],
+    ["currentLevel", "Current level"],
+    ["targetLevel", "Target level"],
+  ]
+
   return (
     <div className="">
-      <div className="aces-geist border-t py-6">
-        <div className="">
-          <div className="max-w-xl mx-auto">
-            <div className="grid grid-cols-3 gap-4">
-              <PField label="Nama lengkap" name="fullname" value={personData.fullname} fn={setPersonData} autofocus="1"/>
-              <PField label="Username" name="username" value={personData.username} fn={setPersonData}/>
-              <PField label="Email" name="email" value={personData.email} fn={setPersonData}/>
-              <PField label="Jenis kelamin" name="gender" value={personData.gender} fn={setPersonData}/>
-              <PField label="Tanggal lahir" name="birth" value={personData.birth} fn={setPersonData}/>
-              <PField label="NIP / Nomor induk" name="nip" value={personData.nip} fn={setPersonData}/>
-              <PField label="Posisi / jabatan" name="position" value={personData.position} fn={setPersonData}/>
-              <PField label="Current level" name="currentLevel" value={personData.currentLevel} fn={setPersonData}/>
-              <PField label="Target level" name="targetLevel" value={personData.targetLevel} fn={setPersonData}/>
-              <div className="col-span-1 py-2">
-                <button
-                className={"w-full px-4 py-2 border border-gray-400 " +
-              "hover:bg-gray-600 hover:border-gray-600 text-sm text-gray-600 hover:text-white"}
-                onClick={e => {
-                  e.preventDefault()
-                        setPersonData(resetData)
-                        toggler()
-                }}
-                >Cancel
-                </button>
-              </div>
-              <div className="col-span-2 py-2">
-                <button
-                className={"w-full px-4 py-2 border border-gray-400 " +
-              "hover:bg-gray-600 hover:border-gray-600 text-sm text-gray-600 hover:text-white"}
-                onClick={handleSubmit}
-                >Save
-                </button>
-              </div>
-              {/* <div className="col-span-1 hidden sm:block"></div> */}
-            </div>
+      <div className="max-w-xl mx-auto">
+        <div className="grid grid-cols-3 gap-4">
+          {fields.map((f, index) => {
+            if (index == 0) return (
+              <PField
+                label={f[1]}
+                name={f[0]}
+                value={personData[f[0]]}
+                fn={setPersonData}
+                autofocus="1"
+              />
+            )
+            else return (
+              <PField
+                label={f[1]}
+                name={f[0]}
+                value={personData[f[0]]}
+                fn={setPersonData}
+              />
+            )
+          })}
+          <div className="col-span-1 py-2">
+            <BtnHollowMd label="Close" isFull={true} clickHandler={e => {
+              e.preventDefault()
+              setPersonData(resetData)
+              toggler()
+            }} />
           </div>
+          <div className="col-span-2 py-2">
+            <BtnReverseMd label="Save Persona" isFull={true} clickHandler={handleSubmit} />
+          </div>
+          {/* <div className="col-span-1 hidden sm:block"></div> */}
         </div>
       </div>
     </div>
@@ -238,7 +265,6 @@ function PField({ label, name, value, fn, autofocus = false}) {
         {autofocus && <input
           type="text"
           id="autofocus"
-          autoFocus
           name={name}
           value={value}
           onChange={e => {

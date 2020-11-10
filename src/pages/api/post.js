@@ -53,13 +53,6 @@ export default withSession(async (req, res) => {
       await db.collection(CLIENTS_DB).deleteMany({ $or: [{license: "sample-license"}, {license: "doremi"}] })
       res.json({ message: "Removed sample data." })
     }
-    else if (action == "create-persons") {
-      props = createPersonaProps(req.body)
-      type = "persona"
-      collection = PERSONAS_DB
-
-      console.log("XPROPS", props)
-    }
     else {
       console.log("action", action)
       console.log("BODY", req.body)
