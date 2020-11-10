@@ -76,12 +76,12 @@ export default function Personas({ info, project }) {
       <div className="pb-32">
         <div className="h-10 bg-gray-600"></div>
         <div className="px-4 sm:px-6 -mt-10">
-          <div className="aces-geist">
+          <div className="aces-geist overflow-x-auto">
             <table className="table-full w-full">
               <thead>
-                <tr className=" text-gray-200 border-transparent text-xs uppercase">
+                <tr className=" text-gray-200 text-xs uppercase">
                   <th className="h-10 pb-2 font-normal">#</th>
-                  <th className="h-10 pb-2 font-normal">Nama Lengkap</th>
+                  <th className="h-10 pb-2 font-normal whitespace-no-wrap">Nama Lengkap</th>
                   <th className="h-10 pb-2 font-normal">Email</th>
                   <th className="h-10 pb-2 font-normal">NIP</th>
                   <th className="h-10 pb-2 font-normal">Position</th>
@@ -92,7 +92,7 @@ export default function Personas({ info, project }) {
               {personas?.map((persona, index) => (
                 <tr key={persona._id} className="border-b text-gray-600">
                   <td>{index +1}</td>
-                  <td>{persona.fullname}</td>
+                  <td className="whitespace-no-wrap">{persona.fullname}</td>
                   <td>{persona.email}</td>
                   <td>{persona.nip ? persona.nip : 'N/A'}</td>
                   <td>{persona.position ? persona.position : 'N/A'}</td>
@@ -143,14 +143,22 @@ function Hero({ project, flag, toggler }) {
             {!flag && <div className="hidden sm:block flex-grow text-xs font-semibold uppercase leading-loose">
               {/* <span className="inline-block w-8 h-8 border-4 text-white text-center rounded-full bg-gray-500">DV</span> */}
               <span className="text-gray-700 cursor-default">
-                Data view
+                Data
               </span>
               <span className="mx-2">|</span>
               <Link
               href="/[slug]/projects/[id]/assignments"
               as={`/${project.license}/projects/${project._id}/assignments`}>
                 <a className="hover:text-gray-700">
-                  Assignment View
+                  Assignment
+                </a>
+              </Link>
+              <span className="mx-2">|</span>
+              <Link
+              href="/[slug]/projects/[id]/edit-assignments"
+              as={`/${project.license}/projects/${project._id}/edit-assignments`}>
+                <a className="hover:text-gray-700">
+                  Edit Assignment
                 </a>
               </Link>
             </div>}
@@ -221,6 +229,7 @@ function Form({ project, user, toggler, mutate }) {
           {fields.map((f, index) => {
             if (index == 0) return (
               <PField
+                key={f[0]}
                 label={f[1]}
                 name={f[0]}
                 value={personData[f[0]]}

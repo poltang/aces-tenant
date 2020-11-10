@@ -42,6 +42,19 @@ export default withSession(async (req, res) => {
 
       console.log("RS", rs)
     }
+
+    else if (action == "bulk-set-persona-modules") {
+      const rs = await db.collection(PERSONAS_DB).updateMany(
+        { projectId: body.projectId },
+        { $set: {
+          tests: body.modules,
+          updatedAt: new Date(),
+        }}
+      )
+
+      console.log("RS", rs)
+    }
+
     res.json({ message: "OK" })
   } catch (error) {
     res.status(500)
