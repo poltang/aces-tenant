@@ -70,7 +70,7 @@ export default function License({ info, projects, logs }) {
       <Hero info={info} />
       {/*  */}
       <div className="px-4 sm:px-6">
-        <div className="aces-geist">
+        <div className="aces-geist pb-16">
           <div className="max-w-lg md:max-w-full mx-auto">
             <div className="grid grid-cols-5 gap-4">
               {/* Kiri */}
@@ -146,7 +146,7 @@ function Hero({ info }) {
           {/*  */}
           <div className="col-span-7 md:col-span-2 md:text-right pb-4 md:pt-6">
             <div className="flex justify-center md:justify-end">
-              <Link href="/[license]/projects/new" as={`/${info?.licenseSlug}/projects/new`}>
+              <Link href="/[license]/new-project" as={`/${info?.code}/new-project`}>
                 <a className="roundeds px-4 py-2 border border-gray-400 text-gray-600 hover:border-gray-600 hover:bg-gray-600 hover:text-white">
                   Create Project
                 </a>

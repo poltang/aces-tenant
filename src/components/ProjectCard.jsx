@@ -18,7 +18,7 @@ export default function ProjectCard({ project, desc = true }) {
               <h3 className="flex-grow text-xl text-gray-800 font-bold">
                 <Link href="/[slug]/projects/[id]" as={`/${project.license}/projects/${project._id}`}>
                   <a className="hover:text-blue-600">
-                    {project.title}
+                    {project.label ? project.label : project.title}
                   </a>
                 </Link>
               </h3>

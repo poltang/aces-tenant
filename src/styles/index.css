@@ -56,6 +56,9 @@ body {
 .scrolled .aces-prompt-nav {
   transform: translate3d(20px, 0, 0);
 }
+.scrolled .aces-form .aces-prompt-nav {
+  transform: translate3d(10px, 0, 0);
+}
 
 #aces-main {
   /* background-color: rgb(247, 251, 252); */
@@ -68,13 +71,16 @@ body {
   padding-top: 48px;
 }
 #aces-main.scrolled #aces-fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    border-color: rgba(226, 232, 240, 1);
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.075); /*, 0 1px 2px 0 rgba(0, 0, 0, 0.06);*/
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-color: rgba(226, 232, 240, 1);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.075); /*, 0 1px 2px 0 rgba(0, 0, 0, 0.06);*/
+}
+#aces-main.scrolled #aces-fixed.aces-form {
+  box-shadow: none;
+}
 #aces-footer {
   /* background-color: rgb(243, 246, 249); */
   /* background-color: rgb(237, 241, 247); */

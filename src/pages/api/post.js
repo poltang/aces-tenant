@@ -69,13 +69,15 @@ export default withSession(async (req, res) => {
           type = "user"
           collection = USERS_DB
           break;
-        // case "create-project":
-        //   props = createProjectProps(req.body)
-        //   type = "project"
-        //   collection = PROJECTS_DB
-        //   break;
+        case "create-project":
+          props = createProjectProps(req.body)
+          type = "project"
+          collection = PROJECTS_DB
+          break;
         case "create-project-and-client":
+          console.log("::create-project-and-client")
           props = createProjectAndClientProps(req.body)
+          console.log(props)
           break;
         case "create-member":
           props = createMemberProps(req.body)
@@ -269,15 +271,16 @@ function createUserProps(body) {
 }
 
 function createClientProps(body) {
+  // body -> { project, client }
   let {
     /* required */ license,
     /* required */ name,
-    /* required */ address,
     /* required */ city,
     /* required */ createdBy,
+    address,
     phone,
-    contacts
-  } = body
+    // contacts
+  } = body.client
   return {
     _id: ObjectID().toString(),
     license: license,
@@ -285,7 +288,7 @@ function createClientProps(body) {
     address: address,
     city: city,
     phone: phone,
-    contacts: contacts,
+    contacts: [],
     createdBy: createdBy,
     createdAt: new Date(),
     updatedAt: null,
@@ -293,22 +296,22 @@ function createClientProps(body) {
 }
 
 function createProjectProps(body, _clientId = false) {
+  // body -> { project, client }
   let {
     /* required */ license,
     /* required */ title,
+    /* required */ label,
     /* required */ admin,
     /* required */ createdBy,
-    clientId,
+    /* required */ clientId,
     description,
     startDate,
     endDate,
-    // status,
-    contact
-  } = body
+  } = body.project
   if (!description || description == undefined) description = null
   if (!startDate || startDate == undefined) startDate = null
   if (!endDate || endDate == undefined) endDate = null
-  if (!contact || contact == undefined) contact = null
+  // if (!contact || contact == undefined) contact = null
   console.log(license,
     title,
     admin,
@@ -318,13 +321,16 @@ function createProjectProps(body, _clientId = false) {
     license: license,
     clientId: _clientId ? _clientId : clientId,
     title: title,
+    label: label,
     description: description,
     startDate: startDate,
     endDate: endDate,
     status: null,
-    contact: contact,
+    contact: null,
     admin: admin,
     modules: [],
+    testGroups: ["Group 1"],
+    simGroups: ["Group A"],
     accessCode: null,
     createdBy: createdBy,
     createdAt: new Date(),
@@ -335,6 +341,7 @@ function createProjectProps(body, _clientId = false) {
 function createProjectAndClientProps(body) {
   const clientProps = createClientProps(body)
   const projectProps = createProjectProps(body, clientProps._id)
+  console.log("createProjectAndClientProps")
   return { clientProps,  projectProps }
 }
 
