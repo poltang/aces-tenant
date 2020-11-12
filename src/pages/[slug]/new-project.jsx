@@ -38,10 +38,10 @@ export async function getStaticProps({ params }) {
   }
 }
 
-export default function NewProject({ info,clients, users }) {
+export default function NewProject({ info, clients, users }) {
   const { user } = useUser({ redirecTo: false })
   const projectModel = {
-    license: info.code,
+    license: info?.code,
     createdBy: user?.username,
     clientId: null,
     admin: '',
@@ -53,7 +53,7 @@ export default function NewProject({ info,clients, users }) {
     endDate: '',
   }
   const clientModel = {
-    license: info.code,
+    license: info?.code,
     createdBy: user?.username,
     name: '',
     address: '',
