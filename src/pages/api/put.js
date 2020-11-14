@@ -30,8 +30,18 @@ export default withSession(async (req, res) => {
   console.log("BODY", body)
 
   try {
+    if (action == "set-project-modules") {
+      console.log("action", action)
+      const rs = db.collection(PROJECTS_DB).findOneAndUpdate(
+        { _id: body.projectId },
+        { $set: {
+          modules: body.modules,
+          updatedAt: new Date(),
+        }}
+      )
+    }
     // Set persona modules
-    if (action == "set-persona-modules") {
+    else if (action == "set-persona-modules") {
       const rs = await db.collection(PERSONAS_DB).findOneAndUpdate(
         { _id: body.id, projectId: body.projectId },
         { $set: {
@@ -42,7 +52,7 @@ export default withSession(async (req, res) => {
 
       console.log("RS", rs)
     }
-
+    // Bulk set persona modules
     else if (action == "bulk-set-persona-modules") {
       const rs = await db.collection(PERSONAS_DB).updateMany(
         { projectId: body.projectId },

@@ -77,3 +77,39 @@ export async function getProjectInfo(db, id) {
     throw error
   }
 }
+
+export async function getAcesModulesMeta(db) {
+  try {
+    const meta = await db.collection('modules_meta').find({}).toArray()
+    const modules = await db.collection('modules').find({}, {
+      projection: {
+        type: 1,
+        variant: 1,
+        method: 1,
+        name: 1,
+        label: 1,
+        description: 1,
+        length: 1,
+        maxTime: 1,
+      }
+    }).toArray()
+
+    let modulesMeta = meta
+    modulesMeta?.forEach((elm, index) => {
+      modulesMeta[index]['selected'] = false
+      modulesMeta[index]['modules'] = []
+      modulesMeta[index]['collection'].forEach(variant => {
+        const v = modules.find(m => m.variant == variant)
+        if (v) {
+          console.log(v)
+          modulesMeta[index]['modules'].push(v)
+        }
+      })
+      delete modulesMeta[index]['collection']
+    })
+
+    return modulesMeta
+  } catch (error) {
+    throw error
+  }
+}

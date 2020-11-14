@@ -77,7 +77,7 @@ export default function License({ info, projects, logs }) {
               <div className="col-span-5 md:col-span-3">
                 <div className="-mt-16 md:-mt-16 pt-1 md:pt-2 md:pr-4">
                   {projects.map((project) => (
-                    <div key={project._id}>
+                    <div key={project._id} className="mb-8">
                       <ProjectCard project={project} />
                     </div>
                   ))}
@@ -107,7 +107,7 @@ export default function License({ info, projects, logs }) {
       {/*  */}
       <div className="relative md:hidden border-t mt-12">
         <div className="absolute w-full h-full z-0 bg-gradient-to-b from-white"></div>
-        <div className="relative z-30 bg-white px-4 -mb-10">
+        <div className="relative z-30 bg-white px-4">
           <div className="max-w-lg mx-auto pt-8 pb-12">
             <h3 className="text-lg text-gray-600 tracking-wider uppercase font-semibold mb-8">
               Activities

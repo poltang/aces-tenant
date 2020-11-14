@@ -121,13 +121,13 @@ function NavProject({ project, activeNav }) {
                   </span>
                 </a>
               </Link>
-              <Link href={`/${project.license}/projects/${project._id}/modules`}>
+              {/* <Link href={`/${project.license}/projects/${project._id}/modules`}>
                 <a className={activeNav == 'modules' ? active : normal}>
                   <span className={activeNav == 'modules' ? innerActive : innerNormal}>
                     Modules
                   </span>
                 </a>
-              </Link>
+              </Link> */}
               <Link href={`/${project.license}/projects/${project._id}/personas`}>
                 <a className={activeNav == 'personas' ? active : normal}>
                   <span className={activeNav == 'personas' ? innerActive : innerNormal}>

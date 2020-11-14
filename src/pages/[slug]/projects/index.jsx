@@ -64,10 +64,10 @@ export default function Projects({ info, projects }) {
       <Hero info={info} />
 
       <div className="px-4 sm:px-6">
-        <div className="aces-geist">
+        <div className="aces-geist pb-32">
           {/* If there're more than one project */}
           <div className="max-w-lg md:max-w-full mx-auto">
-            <div className="grid grid-cols-2 gap-6 pt-10 pb-12">
+            <div className="grid grid-cols-2 gap-10 md:gap-6 pt-10 pb-12">
               {projects.map(project => (
                 <div key={project._id} className="col-span-2 md:col-span-1">
                   <ProjectCard project={project} desc={false} />

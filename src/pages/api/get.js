@@ -12,6 +12,7 @@ export default withSession(async (req, res) => {
 
   const { id,
     info,
+    modulesMeta, modules,
     projects, project,
     clients, client,
     contracts, contract,
@@ -121,6 +122,28 @@ export default withSession(async (req, res) => {
       else res.status(404).json({ message: 'Not found' })
     }
 
+    // Modules meta
+    else if (modulesMeta !== undefined) {
+      const rs = await db.collection('modules_meta').find({}).toArray()
+      res.json(rs)
+    }
+
+    // ACES Modules
+    else if (modules !== undefined) {
+      const rs = await db.collection('modules').find({}, {
+        projection: {
+          type: 1,
+          variant: 1,
+          method: 1,
+          name: 1,
+          label: 1,
+          description: 1,
+          length: 1,
+          maxTime: 1,
+        }
+      }).toArray()
+      res.json(rs)
+    }
 
     // PROJECTS
     else if (projects !== undefined) {

@@ -17,6 +17,7 @@ module.exports = {
     padding: ['responsive', 'hover', 'focus'],
     backgroundOpacity: ['responsive', 'hover'],
     zIndex: ['responsive', 'hover'],
+    borderRadius: ['hover'],
   },
   plugins: [
     require('@tailwindcss/custom-forms'),

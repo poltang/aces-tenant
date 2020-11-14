@@ -71,7 +71,7 @@ function Hero({ project }) {
         <div className="flex flex-col">
           <div className="text-center sm:text-left">
             <div className="text-3xl text-gray-800 leading-snug tracking-loose">
-              {project.title}
+              {project.label}
             </div>
             <div className="text-sm text-gray-600 text-sm">
               {project.client.name}, {project.client.city}
