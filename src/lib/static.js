@@ -101,7 +101,7 @@ export async function getAcesModulesMeta(db) {
       modulesMeta[index]['collection'].forEach(variant => {
         const v = modules.find(m => m.variant == variant)
         if (v) {
-          console.log(v)
+          // console.log(v)
           modulesMeta[index]['modules'].push(v)
         }
       })

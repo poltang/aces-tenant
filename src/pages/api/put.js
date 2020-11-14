@@ -50,7 +50,7 @@ export default withSession(async (req, res) => {
         }}
       )
 
-      console.log("RS", rs)
+      // console.log("RS", rs)
     }
     // Bulk set persona modules
     else if (action == "bulk-set-persona-modules") {
@@ -62,7 +62,7 @@ export default withSession(async (req, res) => {
         }}
       )
 
-      console.log("RS", rs)
+      // console.log("RS", rs)
     }
 
     res.json({ message: "OK" })
