@@ -32,7 +32,7 @@ export async function getStaticProps({ params }) {
 export default function ProjectModules({ info, project, descriptor }) {
   const { user } = useUser({ redirecTo: false })
   const [dataType, setDataType] = useState('static')
-  const [hasModules, setHasModules] = useState(project.modules.length > 0)
+  const [hasModules, setHasModules] = useState(project?.modules?.length > 0)
   const [showBuilder, setShowBuilder] = useState(false)
   const { data: modulesBySWR, mutate: mutateModulesBySWR } = useSWR(`/api/get?id=${info.code}&project=${project._id}&modules`)
 
@@ -59,7 +59,7 @@ export default function ProjectModules({ info, project, descriptor }) {
       {/* Show static modules */}
       {hasModules && dataType == 'static' && (
         <div>
-        {project.modules.map(module => (
+        {project?.modules.map(module => (
           <div key={module.variant} className="mb-4">
             <ModuleCard module={module} />
           </div>
