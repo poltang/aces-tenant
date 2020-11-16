@@ -7,7 +7,7 @@ import { getProjectPaths, getLicenseInfo, getProjectInfo } from 'lib/static'
 import useUser from 'lib/useUser'
 import { swrOptions } from 'lib/utils';
 import NotFound from 'components/NotFound';
-import Layout from 'components/Layout'
+import ProjectSettingsLayout from 'components/ProjectSettingsLayout'
 import ProjectSidebar from 'components/ProjectSidebar'
 import ProjectInfo from 'components/ProjectInfo'
 import { BtnHollowMd, BtnReverseMd, BtnReverseSm } from 'components/Buttons'
@@ -55,26 +55,15 @@ export default function Info({ info, project }) {
   const debugs = [ info, project ]
 
   return (
-    <Layout bg="white" info={info} project={project} activeNav="settings" debugs={debugs}>
-      <div className="px-4 sm:px-6 py-10">
-        <div className="aces-geist">
-          <div className="flex flex-row">
-            <div className="w-full sm:w-32 md:w-40 sm:-mt-2">
-              <ProjectSidebar project={project} selected="info"/>
-            </div>
-            {/*  */}
-            <div className="hidden sm:block flex-grow sm:ml-10">
-              <ProjectInfo project={project} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </Layout>
-  )
-}
-
-function Content() {
-  return (
-    <div>CONTENT</div>
+    <ProjectSettingsLayout
+      info={info}
+      project={project}
+      activeNav="settings"
+      selected="info"
+      title="Project Info"
+      debugs={debugs}
+    >
+      <ProjectInfo project={project} />
+    </ProjectSettingsLayout>
   )
 }

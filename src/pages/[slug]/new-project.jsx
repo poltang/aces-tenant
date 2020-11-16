@@ -26,7 +26,7 @@ export async function getStaticProps({ params }) {
       { license: params.slug },
       { projection: { name: 1, username: 1, roles: 1 }}
     ).toArray()
-    console.log(rs2)
+    // console.log(rs2)
     const users = JSON.parse( JSON.stringify(rs2) )
 
     return {
@@ -40,6 +40,7 @@ export async function getStaticProps({ params }) {
 
 export default function NewProject({ info, clients, users }) {
   const { user } = useUser({ redirecTo: false })
+  const router = useRouter()
   const projectModel = {
     license: info?.code,
     createdBy: user?.username,
@@ -96,6 +97,7 @@ export default function NewProject({ info, clients, users }) {
       console.log("RESPONSE", response)
       setProjectData(projectModel)
       setClientData(clientModel)
+      router.push(`/${info.code}/projects/${response._id}/settings`)
     }
     // setPersonData(resetData)
     // mutate()

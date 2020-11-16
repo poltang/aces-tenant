@@ -78,7 +78,8 @@ export async function getProjectInfo(db, id) {
   }
 }
 
-export async function getAcesModulesMeta(db) {
+// export async function getAcesModulesMeta(db) {
+export async function getModulesDescriptor(db) {
   try {
     const meta = await db.collection('modules_meta').find({}).toArray()
     const modules = await db.collection('modules').find({}, {
@@ -94,21 +95,21 @@ export async function getAcesModulesMeta(db) {
       }
     }).toArray()
 
-    let modulesMeta = meta
-    modulesMeta?.forEach((elm, index) => {
-      modulesMeta[index]['selected'] = false
-      modulesMeta[index]['modules'] = []
-      modulesMeta[index]['collection'].forEach(variant => {
+    let descriptor = meta
+    descriptor?.forEach((elm, index) => {
+      descriptor[index]['selected'] = false
+      descriptor[index]['modules'] = []
+      descriptor[index]['collection'].forEach(variant => {
         const v = modules.find(m => m.variant == variant)
         if (v) {
           // console.log(v)
-          modulesMeta[index]['modules'].push(v)
+          descriptor[index]['modules'].push(v)
         }
       })
-      delete modulesMeta[index]['collection']
+      delete descriptor[index]['collection']
     })
 
-    return modulesMeta
+    return descriptor
   } catch (error) {
     throw error
   }

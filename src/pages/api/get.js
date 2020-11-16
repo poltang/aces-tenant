@@ -44,12 +44,23 @@ export default withSession(async (req, res) => {
       else res.status(404).json({ message: 'Not found' })
     }
 
+    // Project Modules
+    else if (project !== undefined && project && modules != undefined) {
+      const rs = await db.collection('projects').findOne(
+        { _id: project },
+        { projection: { _id: 1, modules: 1 }}
+      )
+      console.log(rs)
+      if (rs) res.json(rs.modules)
+    }
+
     // PROJECT MEMBERS
     else if (project !== undefined && members != undefined) {
       const rs = await db.collection('project_members').find({ projectId: project }).toArray()
       console.log(rs)
       if (rs) res.json(rs)
     }
+
     // SINGLE PROJECT MEMBER
     else if (project !== undefined && member != undefined && username) {
       const rs = await db.collection('project_members').findOne({ projectId: project, username: username })
@@ -99,19 +110,19 @@ export default withSession(async (req, res) => {
 
     // A PROJECT
     else if (project !== undefined && project) {
-      const rs = await db.collection('projects').findOne({ license: id, _id: ObjectID(project) })
+      const rs = await db.collection('projects').findOne({ license: id, _id: project })
       if (rs) res.json(rs)
       else res.status(404).json({ message: 'Not found' })
     }
     // A CLIENT
     else if (client !== undefined && client) {
-      const rs = await db.collection('clients').findOne({ license: id, _id: ObjectID(client) })
+      const rs = await db.collection('clients').findOne({ license: id, _id: client })
       if (rs) res.json(rs)
       else res.status(404).json({ message: 'Not found' })
     }
     // A CONTRACT
     else if (contract !== undefined && contract) {
-      const rs = await db.collection('contracts').findOne({ license: id, _id: ObjectID(contract) })
+      const rs = await db.collection('contracts').findOne({ license: id, _id: contract })
       if (rs) res.json(rs)
       else res.status(404).json({ message: 'Not found' })
     }
