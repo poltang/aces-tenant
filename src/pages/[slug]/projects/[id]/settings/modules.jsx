@@ -34,7 +34,7 @@ export default function ProjectModules({ info, project, descriptor }) {
   const [dataType, setDataType] = useState('static')
   const [hasModules, setHasModules] = useState(project?.modules?.length > 0)
   const [showBuilder, setShowBuilder] = useState(false)
-  const { data: modulesBySWR, mutate: mutateModulesBySWR } = useSWR(`/api/get?id=${info.code}&project=${project._id}&modules`)
+  const { data: modulesBySWR, mutate: mutateModulesBySWR } = useSWR(`/api/get?id=${info?.code}&project=${project?._id}&modules`)
 
   if (!user || !user.isLoggedIn || user.license != info?.code) return <NotFound />
 
