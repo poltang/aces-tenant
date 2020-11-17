@@ -30,8 +30,8 @@ export async function getStaticProps({ params }) {
 export default function Groups({ info, project }) {
   const { user } = useUser({ redirecTo: false })
   const grouping = {
-    testGroups: project.testGroups,
-    simGroups: project.simGroups,
+    testGroups: project?.testGroups,
+    simGroups: project?.simGroups,
   }
   // const { data: groups, mutate: mutateGroups } = useSWR(`/api/get?id=${info?.code}&project=${project?._id}&groups`)
   if (!user || !user.isLoggedIn || user.license != info?.code) return <NotFound />
