@@ -42,7 +42,64 @@ export default function Members({ info, project }) {
       title="Project Team"
       debugs={debugs}
     >
-      <div>content</div>
+      <div className="max-w-xl my-3">
+      <div className="mb-8">
+        <h3 className="text-lg font-semibold">Client Guests</h3>
+        <table className="w-full mt-2">
+          <thead className="rounded border-t border-gray-200 bg-gradient-to-t from-gray-100">
+            <tr className="text-gray-600 border-b border-greens-200">
+              <td width="5%">#</td>
+              <td width="">Nama</td>
+              <td width="">Username</td>
+              <td width="">Phone</td>
+            </tr>
+          </thead>
+          <tbody className="text-gray-600">
+            <tr className="border-t">
+              <td>1</td>
+              <td>Abdullah Mimbar</td>
+              <td>amimbar</td>
+              <td>08123456799</td>
+            </tr>
+            <tr className="border-t">
+              <td>2</td>
+              <td>Rindang Subagja</td>
+              <td>rindangs</td>
+              <td>08778989100</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      {/*  */}
+      <div className="mb-8">
+        <h3 className="text-lg font-semibold">Expert Guests</h3>
+        <table className="w-full mt-2">
+          <thead className="rounded border-t border-gray-200 bg-gradient-to-t from-gray-100">
+            <tr className="text-gray-600 border-b border-greens-200">
+              <td width="5%">#</td>
+              <td width="">Nama</td>
+              <td width="">Username</td>
+              <td width="">Role</td>
+            </tr>
+          </thead>
+          <tbody className="text-gray-600">
+            <tr className="border-t">
+              <td>1</td>
+              <td>Veronica Subagja</td>
+              <td>vsubagja</td>
+              <td>Behavioral Analytics</td>
+            </tr>
+            <tr className="border-t">
+              <td>2</td>
+              <td>Lodi Rumantioan</td>
+              <td>lodirum</td>
+              <td>Psychometry</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      {/*  */}
+      </div>
     </ProjectSettingsLayout>
   )
 }
