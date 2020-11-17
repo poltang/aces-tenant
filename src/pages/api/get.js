@@ -14,7 +14,7 @@ export default withSession(async (req, res) => {
     info,
     modulesMeta, modules,
     projects, project,
-    groups,
+    groups, grouping,
     clients, client,
     contracts, contract,
     users, user, username,
@@ -65,6 +65,20 @@ export default withSession(async (req, res) => {
       if (rs) res.json({
         testGroups: rs.testGroups,
         simGroups: rs.simGroups
+      })
+    }
+
+    // Project Groupings
+    else if (project !== undefined && project && grouping != undefined) {
+      const rs = await db.collection('projects').findOne(
+        { _id: project },
+        { projection: { _id: 1, gtests: 1, gsims: 1 }}
+      )
+      console.log(rs)
+      if (rs) res.json({
+        _id: rs._id,
+        gtests: rs.gtests,
+        gsims: rs.gsims
       })
     }
 

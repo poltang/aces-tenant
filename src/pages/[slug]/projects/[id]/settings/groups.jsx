@@ -29,11 +29,11 @@ export async function getStaticProps({ params }) {
 
 export default function Groups({ info, project }) {
   const { user } = useUser({ redirecTo: false })
-  const grouping = {
-    testGroups: project?.testGroups,
-    simGroups: project?.simGroups,
-  }
-  // const { data: groups, mutate: mutateGroups } = useSWR(`/api/get?id=${info?.code}&project=${project?._id}&groups`)
+  // const grouping = {
+  //   testGroups: project?.testGroups,
+  //   simGroups: project?.simGroups,
+  // }
+  const { data: grouping, mutate: mutateGrouping } = useSWR(`/api/get?id=${info?.code}&project=${project?._id}&grouping`)
   if (!user || !user.isLoggedIn || user.license != info?.code) return <NotFound />
 
   const debugs = [ info, project ]
@@ -48,188 +48,159 @@ export default function Groups({ info, project }) {
       debugs={debugs}
     >
       <div className="max-w-xl">
-        <p className="text-gray-700 mb-8">
+        <p className="text-gray-700 mb-6">
           Grouping adalah pengelompokan persona. Secara default setiap proyek
           memiliki satu grup untuk test mandiri
           dan satu grup untuk simulasi. Anda dapat mengaktifkan hingga{` `}
           <span className="font-bold">5 grup</span> untuk masing-masing jenis test.
         </p>
 
-        <Grouping data={grouping} project={project} />
+        <Grouping2 project={project} grouping={grouping} mutate={mutateGrouping} />
+
+        {/* <Grouping data={grouping} project={project} /> */}
 
       </div>
     </ProjectSettingsLayout>
   )
 }
 
-function Grouping({ data, project }) {
-  const [testGroups, setTestGroups] = useState(data?.testGroups)
-  const [simGroups, setSimGroups] = useState(data?.simGroups)
+function Grouping2({ grouping, mutate }) {
+  if (!grouping) return <div></div>
+
+  const [n1, setN1] = useState(grouping?.gtests)
+  const [groups, setGroups] = useState(createGroups(n1))
+  const [n2, setN2] = useState(grouping?.gsims)
+  const [sims, setSims] = useState(createGroups(n2, "alpha"))
   const [edit, setEdit] = useState(false)
-  // const [dataType, setDataType] = useState('static')
 
-  const { data: groups, mutate: mutateGroups } = useSWR(`/api/get?id=${project?.license}&project=${project?._id}&groups`)
 
-  function setMaxTestGroups(max) {
-    const n = parseInt(max)
-    if (n < 1 || n > 5) return false
-    let groups = [];
-    for (let i = 0; i < n; i++) {
-      groups.push("Group " + (i + 1))
+  function createGroups(n = 1, type = "numeric") {
+    const total = (n < 1 || n > 5) ? 1 : n
+    const chars = 'ABCDEFGHIJ'
+    let arr = []
+    for (var i=0; i<total; i++) {
+      let suffix = type != "numeric" ? chars[i] : i + 1
+      arr.push("Group " + suffix)
     }
-
-    setTestGroups(groups)
+    return arr
   }
 
-  function setMaxSimGroups(max) {
-    const n = parseInt(max)
-    if (n < 1 || n > 5) return false
-    let groups = [];
-    let chars = 'ABCDEFGHIJ'
-    for (let i = 0; i < n; i++) {
-      groups.push("Group " + chars[i])
-    }
+  function handleChange1(e) {
+    const val = parseInt(e.target.value)
+    setN1(val)
+    setGroups(createGroups(val))
+  }
 
-    setSimGroups(groups)
+  function handleChange2(e) {
+    const val = parseInt(e.target.value)
+    setN2(val)
+    setSims(createGroups(val, "alpha"))
   }
 
   async function handleSubmit(e) {
+    e.preventDefault()
     const body = {
-      id: project._id,
-      testGroups: testGroups,
-      simGroups: simGroups
+      id: grouping._id,
+      gtests: n1,
+      gsims: n2,
     }
     console.log(body)
-    const url = "/api/put?action=set-project-groups"
+    const url = "/api/put?action=set-project-grouping"
     const response = await fetchJson(url, {
       method: 'PUT',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(body),
     })
-    console.log("response", response)
-    mutateGroups()
     setEdit(false)
     setTimeout(() => {
-      // setTestGroups(groups.testGroups)
-      // setSimGroups(groups.simGroups)
+      mutate()
     }, 1000)
   }
 
-  if (!groups) return <div></div>
-
   return (
     <div className="max-w-xl">
-      {/* <pre className="pre">{JSON.stringify(groups, null, 2)}</pre> */}
-      <div className="grid grid-cols-2 gap-8">
-        <div className="col-span-1">
-          <div className="flex flex-row h-8 border-b items-end pb-3">
-            <h3 className="flex-grow font-bold pr-6">
-              Grup Test Mandiri
-            </h3>
-            {edit && <div className="w-20 pl-5">
-              <div className="relative">
-                <select
-                onChange={e => {
-                  if (e.target.value) {
-                    setMaxTestGroups(e.target.value)
-                  }
-                }}
-                className="block appearance-none w-full bg-orange-300 border border-orange-300 text-gray-700 py-1 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                  <option>-</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div>
-              </div>
-            </div>}
-          </div>
-          <div className="mb-8">
-          {!edit && groups?.testGroups?.map(group => (
-            <div key={group}
-            className="group py-3"
-            >{group}</div>
+      <div className="mb-6">
+        <h3 className="font-bold mb-3">
+          Grup Tes Mandiri ({n1})
+        </h3>
+        <div className="flex flex-wrap font-bold mb-4">
+          {groups.map((g, i) => (
+            <Group key={g} label={g} bg={2} />
           ))}
-          {edit && testGroups.map(group => (
-            <div key={group}
-            className="group py-3"
-            >{group}</div>
-          ))}
-          </div>
+          {edit && <div className="w-20">
+            <GroupSeter changeHandler={handleChange1} />
+          </div>}
         </div>
-        {/*  */}
-        <div className="col-span-1">
-          <div className="flex flex-row h-8 border-b items-end pb-3">
-            <h3 className="flex-grow font-bold pr-6">
-              Grup Interaktif
-            </h3>
-            {edit && <div className="w-20 pl-5">
-              <div className="relative">
-                <select
-                onChange={e => {
-                  if (e.target.value) {
-                    setMaxSimGroups(e.target.value)
-                  }
-                }}
-                className="block appearance-none w-full bg-orange-300 border border-orange-300 text-gray-700 py-1 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                  <option>-</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div>
-              </div>
-            </div>}
-          </div>
-          <div className="">
-          {!edit && groups?.simGroups?.map(group => (
-            <div key={group}
-            className="group py-3"
-            >{group}</div>
+      </div>
+      <div className="mb-6">
+        <h3 className="font-bold mb-3">
+          Grup Simulasi / Interaktif ({n2})
+        </h3>
+        <div className="flex flex-wrap font-bold mb-4">
+          {sims.map((g, i) => (
+            <Group key={g} label={g} bg={3} />
           ))}
-          {edit && simGroups.map(group => (
-            <div key={group}
-            className="group py-3"
-            >{group}</div>
-          ))}
-          </div>
+          {edit && <div className="w-20">
+            <GroupSeter changeHandler={handleChange2} />
+          </div>}
         </div>
       </div>
 
-      <hr className="border-orange-300 my-8"/>
-      {!edit && (
-        <button
-        onClick={e => { setEdit(true) }}
-        className="text-blue-500 hover:text-blue-600"
-        >Edit Grouping</button>
-      )}
-      {edit && (
-        <div className="text-center">
-          <button
-          onClick={e => { setEdit(false) }}
-          className="border text-gray-600 px-4 py-2 mr-4"
-          >Cancel</button>
-          <button
-          className="border text-gray-600 px-4 py-2 mr-4"
-          onClick={e => {
-            handleSubmit(e)
-          }}
-          >Save Grouping</button>
-        </div>
-      )}
-      <style jsx>{`
-      .group + .group {
-        border-top: 1px solid #ebebeb;
-      }
-      `}</style>
+      <div>
+        {!edit && <button
+          onClick={e => {setEdit(true)}}
+          className="border px-4 py-2"
+        >Edit Grouping</button>}
+
+        {edit && (
+          <div>
+            <button
+            onClick={e => {setEdit(false)}}
+            className="border px-4 py-2 mr-4"
+            >Cancel</button>
+            <button
+            onClick={handleSubmit}
+            className="border px-4 py-2"
+          >Save Project Grouping</button>
+          </div>
+        )}
+      </div>
+      <pre className="pre">{JSON.stringify(grouping, null, 2)}</pre>
+    </div>
+  )
+}
+
+function Group({ label, bg }) {
+  function clist() {
+    let bgColor = "bg-gray-400"
+    if (bg && bg == 2) bgColor = "bg-teal-300"
+    else if (bg && bg == 3) bgColor = "bg-blue-300"
+    return `w-20 ${bgColor} border border-transparent text-gray-800 text-center py-2 mr-1`
+  }
+
+  return (
+    <div className={clist()}>
+      {label}
+    </div>
+  )
+}
+
+function GroupSeter({ changeHandler }) {
+  return (
+    <div className="relative w-full">
+      <select
+      onChange={changeHandler}
+      className="block appearance-none w-full rounded-none bg-gray-200 border border-gray-200 text-gray-700 font-bold py-2 px-4 pr-8 focus:outline-none focus:bg-white focus:border-gray-500">
+        <option>-</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+      </div>
     </div>
   )
 }

@@ -40,8 +40,21 @@ export default withSession(async (req, res) => {
         }}
       )
     }
+    // set-project-grouping
+    else if (action == "set-project-grouping") {
+      console.log("action", action)
+      const rs = await db.collection(PROJECTS_DB).findOneAndUpdate(
+        { _id: body.id },
+        { $set: {
+          gtests: body.gtests,
+          gsims: body.gsims,
+          updatedAt: new Date(),
+        }}
+      )
+      console.log(rs)
+    }
     // set-project-groups
-    if (action == "set-project-groups") {
+    else if (action == "set-project-groups") {
       console.log("action", action)
       const rs = await db.collection(PROJECTS_DB).findOneAndUpdate(
         { _id: body.id },
