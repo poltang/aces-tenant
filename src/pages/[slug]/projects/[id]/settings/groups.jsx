@@ -114,7 +114,7 @@ function Grouping2({ grouping, mutate }) {
     setEdit(false)
     setTimeout(() => {
       mutate()
-    }, 1000)
+    }, 500)
   }
 
   return (

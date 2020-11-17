@@ -97,7 +97,7 @@ export default function NewProject({ info, clients, users }) {
       console.log("RESPONSE", response)
       setProjectData(projectModel)
       setClientData(clientModel)
-      router.push(`/${info.code}/projects/${response._id}/settings`)
+      router.push(`/${response.project.license}/projects/${response.project._id}/settings`)
     }
     // setPersonData(resetData)
     // mutate()
