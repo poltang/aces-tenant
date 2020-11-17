@@ -32,13 +32,26 @@ export default withSession(async (req, res) => {
   try {
     if (action == "set-project-modules") {
       console.log("action", action)
-      const rs = db.collection(PROJECTS_DB).findOneAndUpdate(
+      const rs = await db.collection(PROJECTS_DB).findOneAndUpdate(
         { _id: body.projectId },
         { $set: {
           modules: body.modules,
           updatedAt: new Date(),
         }}
       )
+    }
+    // set-project-groups
+    if (action == "set-project-groups") {
+      console.log("action", action)
+      const rs = await db.collection(PROJECTS_DB).findOneAndUpdate(
+        { _id: body.id },
+        { $set: {
+          testGroups: body.testGroups,
+          simGroups: body.simGroups,
+          updatedAt: new Date(),
+        }}
+      )
+      console.log(rs)
     }
     // Set persona modules
     else if (action == "set-persona-modules") {
