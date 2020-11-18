@@ -329,6 +329,8 @@ function createProjectProps(body, _clientId = false) {
     contact: null,
     admin: admin,
     modules: [],
+    gtests: 1,
+    gsims: 1,
     testGroups: ["Group 1"],
     simGroups: ["Group A"],
     accessCode: null,
@@ -385,10 +387,12 @@ function createPersonaProps(body) {
     currentLevel: currentLevel,
     targetLevel: targetLevel,
     //
+    gtest: 1,
     tests: [],
     testsPerformed: [],
     currentTest: null,
     //
+    gsim: 1,
     simulations: [],
     simsPerformed: [],
     currentSim: null,

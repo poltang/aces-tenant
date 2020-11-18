@@ -22,7 +22,6 @@ export async function getStaticProps({ params }) {
     const rs = await db.collection('projects').aggregate(
       { $match: { license: params.slug }},
       { $sort: { _id: -1 }},
-      { $limit: 3 },
       { $lookup: {
         localField: 'clientId',
         from: 'clients',
