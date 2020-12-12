@@ -172,7 +172,7 @@ export function BtnReverseSm({ label, props, isFull, disabled, clickHandler }) {
   )
 }
 
-export function BtnReverseMd({ label, props, isFull, disabled, clickHandler }) {
+export function BtnReverseMd({ label, props, isFull, disabled, clickHandler, type }) {
   let base = "border border-gray-400 hover:border-gray-600 hover:bg-gray-600 text-sm text-gray-600 hover:text-white px-4 py-2"
   if (isFull) base = "w-full " + base
   if (props) base += " " + props
@@ -193,7 +193,8 @@ export function BtnReverseMd({ label, props, isFull, disabled, clickHandler }) {
     <div className={isFull ? "inline-block leading-normal w-full" : "inline-block leading-normal"}>
       <button
       onClick={handler}
-      className={base}>
+      className={base}
+      type={type}>
         {label}
       </button>
     </div>
