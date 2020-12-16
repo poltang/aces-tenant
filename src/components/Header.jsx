@@ -13,8 +13,14 @@ export default function Header({ info, project, activeNav }) {
         <div className="aces-geist text-sm py-3">
           <div className="flex flex-row items-center">
             <div className="flex flex-grow items-center">
-              <div id="aces-logo" className="rounded-full cursor-default p-1 h-8 w-8 -ml-1 mr-4">
+              {/* <div id="aces-logo" className="rounded-full cursor-default p-1 h-8 w-8 -ml-1 mr-4">
                 <div className="rounded-full h-full bg-white hover:bg-transparent text-green-600 hover:text-white text-xl leading-5 text-center font-bold">a</div>
+              </div> */}
+              <div className="font-bold">
+                ACES
+              </div>
+              <div className="text-lg text-gray-500 font-light mx-2">
+                /
               </div>
               <div className="flex-grow">
                 <Link href={`/${info?.code}`}>
@@ -85,7 +91,7 @@ function NavLicense({ slug, activeNav }) {
               <Link href={`/${slug}/settings`}>
                 <a className={activeNav == 'settings' ? active : normal}>
                   <span className={activeNav == 'settings' ? innerActive : innerNormal}>
-                    Settings
+                    License
                   </span>
                 </a>
               </Link>
